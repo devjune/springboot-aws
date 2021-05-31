@@ -11,8 +11,6 @@ cache:
     - '$HOME/.m2/repository'
     - '$HOME/.gradle'
 
-script: "./gradlew clean build -q"
-
 before_deploy:
   - tar -cvf springboot-aws.tar.gz *
   - mkdir -p deploy
@@ -28,6 +26,8 @@ deploy:
     acl: private
     local_dir: deploy
     wait-until-deployed: true
+    on:
+      branch: main
 
 notifications:
   email:
