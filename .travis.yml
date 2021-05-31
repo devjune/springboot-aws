@@ -13,7 +13,23 @@ cache:
 
 script: "./gradlew clean build -q"
 
+before_deploy:
+  - tar -cvf springboot-aws.tar.gz *
+  - mkdir -p deploy
+  - mv springboot-aws.tar.gz deploy
+
+deploy:
+  - provider: s3
+    access_key_id: $AWS_ACCESS_KEY
+    secret_access_key: $AWS_SECRET_KEY
+    bucket: devsjune-springboot-aws-build
+    region: ap-northeast-2
+    skip_cleanup: true
+    acl: private
+    local_dir: deploy
+    wait-until-deployed: true
+
 notifications:
   email:
     recipients:
-      - devszune@gmail.com
+      - devseonz@gmail.com
